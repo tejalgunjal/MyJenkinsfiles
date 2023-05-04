@@ -1,0 +1,22 @@
+provider "aws" {
+ region="ap-south-1"
+access_key = "xxxxxxxx"
+  secret_key = "xxxxxxxx"
+}
+resource "aws_instance" "myec2" {
+ami= "ami-0d81306eddc614a45"
+instance_type= "t2.small"
+vpc_security_group_ids=[aws_security_group.ownsg.id]
+tags={
+ Name="terraform-example"
+}
+}
+resource "aws_security_group" "ownsg" {
+ name="own-sg"
+ingress {
+ from_port=80
+ to_port=80
+protocol="tcp"
+cidr_blocks=["0.0.0.0/0"]
+}
+}
